@@ -10,15 +10,17 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// middle wares
+app.use(logger('dev')); //いつものログを表示する
+app.use(express.json()); //POSTで送られてくるjsonデータをjsonにパースする
+app.use(express.urlencoded({ extended: false })); //formなどで送られてくるオプション達をオブジェクトにパースする
+app.use(cookieParser()); //あのCookieから送られてくるデータをオブジェクトにパースする
 app.use(function (req, res, next) {
   res.render("asobiba", { title: 'Asobiba' });
 })
 //app.use(express.static(path.join(__dirname, 'public')));
 
+// routes
 {
   const indexRouter = express.Router().get('/', function (req, res, next) {
     res.render('index', { title: 'Express' });
