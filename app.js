@@ -6,6 +6,8 @@ const logger = require('morgan');
 
 const app = express();
 
+const asobibaSrcHandler = require('./asobiba-src-manager-function')(app);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -16,7 +18,7 @@ app.use(express.json()); //POSTで送られてくるjsonデータをjsonにパ�
 app.use(express.urlencoded({ extended: false })); //formなどで送られてくるオプション達をオブジェクトにパースする
 app.use(cookieParser()); //あのCookieから送られてくるデータをオブジェクトにパースする
 app.use(function (req, res, next) {
-  res.render("asobiba", { title: 'Asobiba' });
+  res.render("asobiba", { title: 'Asobiba', asobibaSrc: asobibaSrcHandler.src });
 })
 //app.use(express.static(path.join(__dirname, 'public')));
 
