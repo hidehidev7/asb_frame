@@ -1,14 +1,23 @@
+const express = require("express");
+
 /**
- * @return { AsobibaSrcHandler } asobibaSrcHandler
- * @param { import("express").Application } app
+ * @return { { asobibaSrcHandler: AsobibaSrcHandler, asobibaSrcRouter: express.Router } }
  */
-module.exports = function (app) {
+module.exports = function () {
 
-    const srcFunction = function () {
-        return "http://192.168.1.101:3002";
-    }
+    let src = "http://192.168.1.101:3002";
 
-    return new AsobibaSrcHandler(srcFunction);
+    const router = express.Router();
+
+    router.post("/asobibaURL/", (req, res) => {
+        console.log(req.body);
+        src = req.body.urlString;
+        res.json(req.body);
+    });
+
+    const srcFunction = function () { return src }
+
+    return { asobibaSrcHandler: new AsobibaSrcHandler(srcFunction), asobibaSrcRouter: router };
 }
 
 class AsobibaSrcHandler {
